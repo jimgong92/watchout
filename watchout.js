@@ -29,22 +29,33 @@
     return y;
   };
   // start slingin' some d3 here.
-
+  var enemiesArr = Array(nEnemies);
   //create enemies
-  var enemiesArr = [];
-  for (var i = 0; i < nEnemies; i++) {
-    enemiesArr.push({
-      cx: randCX(),
-      cy: randCY(),
-      radius : r
-    });
-  }
+  // var enemiesArr = [];
+  // for (var i = 0; i < nEnemies; i++) {
+  //   enemiesArr.push({
+  //     // cx: randCX(),
+  //     // cy: randCY(),
+  //     // radius : r
+  //   });
+  // }
 
   d3.select('.svg-container').selectAll('.enemy').data(enemiesArr)
   .enter().append('image').attr("class", "enemy").attr("width", 2 * r)
-  .attr("height", 2 * r).attr("x", function(d) {return d.cx;})
-  .attr("y", function(d){return d.cy;}).attr("xlink:href", "asteroid.png");
+  .attr("height", 2 * r).attr("x", function() {return randCX();})
+  .attr("y", function(){return randCY();}).attr("xlink:href", "asteroid.png");
 
+  // d3.select('.svg-container').selectAll('.enemy').data(enemiesArr)
+  // .enter().append('image').attr("class", "enemy").attr("width", 2 * r)
+  // .attr("height", 2 * r).attr("x", function(d) {return d.cx;})
+  // .attr("y", function(d){return d.cy;}).attr("xlink:href", "asteroid.png");
+  var moveEnemies = function() {
+    d3.selectAll('.enemy').data(enemiesArr)
+    .transition().duration(1000)
+    .attr("x", function() {return randCX()})
+    .attr("y", function(){return randCY();});
+  };
+  setInterval(moveEnemies, 1500);
 
   //give enemies orders to move in random direction every 1000ms
 
