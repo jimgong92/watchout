@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel='stylesheet' type='css' href='styles.css'> 
+    <link rel='stylesheet' type='css' href='styles.css'>
+    <script src = "jquery-1.8.3.js"></script>
   </head>
   <body>
+    <div class="container">
+      <svg class="svg-container" width="700" height="450" viewBox="0 0 700 450">
+
+      </svg>
+    </div>
+
     <div class="scoreboard">
       <!-- Modify the scoreboard when important events occur in your game! -->
-      <div class="high">High score: <span>0</span></div>
-      <div class="current">Current score: <span>0</span></div>
-      <div class="collisions">Collisions: <span>0</span></div>
+      <div class="high">High score: <span class="high-score">0</span></div>
+      <div class="current">Current score: <span class="current-score">0</span></div>
+      <div class="collisions">Collisions: <span class="collision-counter">0</span></div>
     </div>
     <script src="d3.js" charset="utf-8"></script>
-    <script src='vid.js'></script>
+    <!-- <script src='vid.js'></script> -->
     <script src='watchout.js'></script>
   </body>
 </html>
