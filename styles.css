@@ -10,5 +10,7 @@ Feel free to use it if you like. */
 
 }
 .svg-container{
-  background-color: black;
+  background-image: url(space.jpg);
+  background-size: cover;
 }
+
