@@ -31,34 +31,50 @@
 
   var enemiesArr = Array(nEnemies);
 
-  var drag = d3.behavior.drag()
-               .on('dragstart', function() { circle.style('fill', 'red'); })
-               .on('drag', function() { circle.attr('cx', d3.event.x)
-                                              .attr('cy', d3.event.y); })
-               .on('dragend', function() { circle.style('fill', 'black'); });
+  // var drag = d3.behavior.drag()
+  //              .on('dragstart', function() { circle.style('fill', 'red'); })
+  //              .on('drag', function() { circle.attr('cx', d3.event.x)
+  //                                             .attr('cy', d3.event.y); })
+  //              .on('dragend', function() { circle.style('fill', 'black'); });
 
-  var circle = box.selectAll('.draggableCircle')
-                .data([{ x: (boxWidth / 2), y: (boxHeight / 2), r: 25 }])
-                .enter()
-                .append('svg:circle')
-                .attr('class', 'draggableCircle')
-                .attr('cx', function(d) { return d.x; })
-                .attr('cy', function(d) { return d.y; })
-                .attr('r', function(d) { return d.r; })
-                .call(drag)
-                .style('fill', 'black');
 
-  //create enemies
+  // game.selectAll('.player').data([{ x: (width / 2), y: (height / 2), r: 25 }])
+  // .enter().append('circle')
+  // .attr('class', 'player')
+  // .attr('cx', function(d) { return d.x; })
+  // .attr('cy', function(d) { return d.y; })
+  // .attr('r', function(d) { return d.r; })
+  // .call(drag)
+  // .style('fill', 'black');
+
+  // box.selectAll('.draggableCircle')
+  //               .data([{ x: (boxWidth / 2), y: (boxHeight / 2), r: 25 }])
+  //               .enter()
+  //               .append('svg:circle')
+  //               .attr('class', 'draggableCircle')
+  //               .attr('cx', function(d) { return d.x; })
+  //               .attr('cy', function(d) { return d.y; })
+  //               .attr('r', function(d) { return d.r; })
+  //               .call(drag)
+  //               .style('fill', 'black');
+
+  //create player
+  var drag = d3.behavior.drag().on("drag", function(d){
+    var x = d3.event.x;
+    var y= d3.event.y;
+    d3.select(this).attr("x", x - r).attr("y", y - r);
+  });
+  game.selectAll('.player').data([1])
+  .enter().append('image').attr("class", "player").attr("width", 2 * r)
+  .attr("height", 2 * r).attr("x", width / 2)
+  .attr("y", height / 2).attr("xlink:href", "ship.png").call(drag);
+
+  // create enemies
   game.selectAll('.enemy').data(enemiesArr)
   .enter().append('image').attr("class", "enemy").attr("width", 2 * r)
   .attr("height", 2 * r).attr("x", function() {return randCX();})
   .attr("y", function(){return randCY();}).attr("xlink:href", "asteroid.png");
 
-  //create player
-  game.selectAll('.player').data([1])
-  .enter().append('image').attr("class", "player").attr("width", 2 * r)
-  .attr("height", 2 * r).attr("x", width / 2)
-  .attr("y", height / 2).attr("xlink:href", "ship.png");
 
   var moveEnemies = function() {
     d3.selectAll('.enemy').data(enemiesArr)
