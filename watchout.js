@@ -40,19 +40,21 @@ var drag = d3.behavior.drag().on("drag", function(d){
   var x = d3.event.x - r;
   var y= d3.event.y - r;
   d3.select(this).attr("x", x).attr("y", y)
-  // .transition().tween('custom', function() {
-  //   var en = d3.selectAll(".enemy");
-  //   var enList = Array.prototype.slice.call(d3.selectAll(".enemy"))[0];
-  //   for (var i = 0; i < enList.length; i++) {
-  //     var enemyX = enList[i].getAttribute('x');
-  //     var enemyY = enList[i].getAttribute('y');
-  //     var separation = Math.sqrt(Math.pow((x - enemyX), 2) + Math.pow((y - enemyY), 2));
-  //     if (separation <= diameter) {
-  //       onCollision();
-  //     }
+  //---this tween functionality on drag allows for times when colliding into a standing asteroid
+  .transition().tween('custom', function() {
+    var en = d3.selectAll(".enemy");
+    var enList = Array.prototype.slice.call(d3.selectAll(".enemy"))[0];
+    for (var i = 0; i < enList.length; i++) {
+      var enemyX = enList[i].getAttribute('x');
+      var enemyY = enList[i].getAttribute('y');
+      var separation = Math.sqrt(Math.pow((x - enemyX), 2) + Math.pow((y - enemyY), 2));
+      if (separation <= diameter) {
+        onCollision();
+      }
 
-  //   }
-  // });
+    }
+  });
+  //-----
 });
 
 player.data([1])
@@ -104,19 +106,38 @@ var tweenWithCollisionDetection = function() {
   }
 };
 
-
-
 //move enemies
 var moveEnemies = function() {
   d3.selectAll('.enemy').data(enemiesArr)
-  .transition().duration(1000)
+  .transition().duration(1500)
   .tween('custom', tweenWithCollisionDetection);
 };
 
-d3.selectAll('.enemy').data(enemiesArr)
 //give enemies orders to move in random direction every 1000ms
-setInterval(moveEnemies, 1000);
+setInterval(moveEnemies, 1500);
 
+// var constantCollisionCheck = function () {
+//   var enemy = d3.select(this);
+//   var startPosX = parseFloat(enemy.attr("x"));
+//   var startPosY = parseFloat(enemy.attr("y"));
+//   var endPosX = startPosX;
+//   var endPosY = startPosY;
+
+//   return function(t) {
+//     checkCollision(enemy);
+//     var enemyNextX = startPosX + (endPosX - startPosX) * t;
+//     var enemyNextY = startPosY + (endPosY - startPosY) * t;
+//     return enemy.attr("x", enemyNextX).attr("y", enemyNextY);
+//   }
+// }
+
+// var constantCheck = function() {
+//   d3.selectAll('.enemy').data(enemiesArr)
+//   .transition().duration(500)
+//   .tween('custom', constantCollisionCheck);
+// };
+
+// setInterval(constantCheck, 500);
 
 //Increment current score
 setInterval(function() {
